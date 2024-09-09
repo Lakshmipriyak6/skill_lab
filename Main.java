@@ -1,10 +1,12 @@
+package com.Area;
+
 public class Main {
     public static void main(String[] args) {
-       
-        Logger logger = Logger.getInstance();
+        Shape rectangle = new Rectangle(5, 7);
+        Shape circle = new Circle(3);
 
-        logger.log("Application started.");
-        logger.log("Performing some operations...");
-        logger.log("Application ended.");
+        System.out.println("Rectangle Area: " + rectangle.calculateArea());
+        System.out.println("Circle Area: " + circle.calculateArea());
     }
 }
+
