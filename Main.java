@@ -1,12 +1,20 @@
-package com.Area;
+package com.libraryoperations;
 
 public class Main {
     public static void main(String[] args) {
-        Shape rectangle = new Rectangle(5, 7);
-        Shape circle = new Circle(3);
+        Library library = new Library();
+        BorrowingSystem borrowingSystem = new BorrowingSystem(library);
 
-        System.out.println("Rectangle Area: " + rectangle.calculateArea());
-        System.out.println("Circle Area: " + circle.calculateArea());
+        Book book1 = new Book("Java Programming", "John Doe");
+        Member member1 = new Member("Alice", 1);
+
+        library.addBook(book1);
+        library.addMember(member1);
+
+        boolean borrowed = borrowingSystem.borrowBook("Java Programming", 1);
+        System.out.println("Book borrowed: " + borrowed);
+
+        boolean returned = borrowingSystem.returnBook("Java Programming");
+        System.out.println("Book returned: " + returned);
     }
 }
-
