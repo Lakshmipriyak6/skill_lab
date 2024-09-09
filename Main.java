@@ -1,21 +1,51 @@
-package priorityqueue;
+package com.bank;
 
 public class Main {
-	    public static void main(String[] args) {
-	        GenericPriorityQueue<Integer> intQueue = new GenericPriorityQueue<>();
-	        intQueue.enqueue(5);
-	        intQueue.enqueue(2);
-	        intQueue.enqueue(8);
 
-	        System.out.println("Dequeued from intQueue: " + intQueue.dequeue());
-	        System.out.println("Peek intQueue: " + intQueue.peek());
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount(1000); // Initial balance of 1000
 
-	        GenericPriorityQueue<String> strQueue = new GenericPriorityQueue<>();
-	        strQueue.enqueue("apple");
-	        strQueue.enqueue("orange");
-	        strQueue.enqueue("banana");
+        // Creating Runnable tasks for deposit and withdraw
+        Runnable depositTask = () -> {
+            for (int i = 0; i < 5; i++) {
+                account.deposit(100);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
 
-	        System.out.println("Dequeued from strQueue: " + strQueue.dequeue());
-	        System.out.println("Peek strQueue: " + strQueue.peek());
-	    }
-	}
+        Runnable withdrawTask = () -> {
+            for (int i = 0; i < 5; i++) {
+                account.withdraw(50);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        // Creating threads for deposit and withdraw operations
+        Thread user1 = new Thread(depositTask, "User1");
+        Thread user2 = new Thread(withdrawTask, "User2");
+
+        // Starting the threads
+        user1.start();
+        user2.start();
+
+        // Waiting for threads to finish
+        try {
+            user1.join();
+            user2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Display the final balance
+        System.out.println("Final balance: " + account.getBalance());
+    }
+}
+
